@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forex Signals with Circular Progress Bars</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .progress-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .progress-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #4caf50 calc(var(--percentage) * 1%), 
+                #ddd 0
+            );
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            color: #333;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .progress-circle::before {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background-color: white;
+            border-radius: 50%;
+        }
+
+        .progress-circle span {
+            position: relative;
+            z-index: 10;
+        }
+
+        .signal {
+            font-size: 18px;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .buy {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .sell {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .signal-title {
+            margin-bottom: 5px;
+        }
+
+        .signal-image {
+            width: 100px;
+            height: 50px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Forex Signals and Progress</h2>
+        <div class="progress-container">
+            <!-- GBP/USD -->
+            <div>
+                <img src="https://via.placeholder.com/100x50.png?text=GBPUSD" class="signal-image" alt="GBP/USD Signal">
+                <div class="progress-circle" id="progress-gbpusd" style="--percentage: 70">
+                    <span id="percentage-gbpusd">70%</span>
+                </div>
+                <div class="signal-title">GBP/USD</div>
+                <div id="signal-gbpusd" class="signal buy">Buy Signal</div>
+            </div>
+
+            <!-- EUR/USD -->
+            <div>
+                <img src="https://via.placeholder.com/100x50.png?text=EURUSD" class="signal-image" alt="EUR/USD Signal">
+                <div class="progress-circle" id="progress-eurusd" style="--percentage: 40">
+                    <span id="percentage-eurusd">40%</span>
+                </div>
+                <div class="signal-title">EUR/USD</div>
+                <div id="signal-eurusd" class="signal sell">Sell Signal</div>
+            </div>
+
+            <!-- USD/JPY -->
+            <div>
+                <img src="https://via.placeholder.com/100x50.png?text=USDJPY" class="signal-image" alt="USD/JPY Signal">
+                <div class="progress-circle" id="progress-usdjpy" style="--percentage: 80">
+                    <span id="percentage-usdjpy">80%</span>
+                </div>
+                <div class="signal-title">USD/JPY</div>
+                <div id="signal-usdjpy" class="signal buy">Buy Signal</div>
+            </div>
+
+            <!-- EUR/CAD -->
+            <div>
+                <img src="https://via.placeholder.com/100x50.png?text=EURCAD" class="signal-image" alt="EUR/CAD Signal">
+                <div class="progress-circle" id="progress-eurcad" style="--percentage: 30">
+                    <span id="percentage-eurcad">30%</span>
+                </div>
+                <div class="signal-title">EUR/CAD</div>
+                <div id="signal-eurcad" class="signal sell">Sell Signal</div>
+            </div>
+
+            <!-- Crash 500 -->
+            <div>
+                <img src="https://via.placeholder.com/100x50.png?text=Crash500" class="signal-image" alt="Crash 500 Signal">
+                <div class="progress-circle" id="progress-crash500" style="--percentage: 90">
+                    <span id="percentage-crash500">90%</span>
+                </div>
+                <div class="signal-title">Crash 500</div>
+                <div id="signal-crash500" class="signal buy">Buy Signal</div>
+            </div>
+
+            <!-- Boom 1000 -->
+            <div>
+                <img src="https://via.placeholder.com/100x50.png?text=Boom1000" class="signal-image" alt="Boom 1000 Signal">
+                <div class="progress-circle" id="progress-boom1000" style="--percentage: 55">
+                    <span id="percentage-boom1000">55%</span>
+                </div>
+                <div class="signal-title">Boom 1000</div>
+                <div id="signal-boom1000" class="signal sell">Sell Signal</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to update the progress circle and percentage
+        function updateProgress(id, percentage) {
+            const progressCircle = document.getElementById(`progress-${id}`);
+            const percentageText = document.getElementById(`percentage-${id}`);
+            
+            progressCircle.style.setProperty('--percentage', percentage);
+            percentageText.textContent = percentage + '%';
+        }
+
+        // Function to update the buy/sell/neutral signal
+        function updateSignal(id, signal) {
+            const signalElement = document.getElementById(`signal-${id}`);
+            signalElement.textContent = `${signal} Signal`;
+
+            if (signal === 'Buy') {
+                signalElement.className = 'signal buy';
+            } else if (signal === 'Sell') {
+                signalElement.className = 'signal sell';
+            } else {
+                signalElement.className = 'signal neutral';
+            }
+        }
+
+        // Example: Change the progress and signal dynamically
+        setTimeout(() => {
+            updateProgress('gbpusd', 85);
+            updateSignal('gbpusd', 'Sell');
+
+            updateProgress('eurusd', 60);
+            updateSignal('eurusd', 'Buy');
+
+            updateProgress('usdjpy', 90);
+            updateSignal('usdjpy', 'Buy');
+
+            updateProgress('eurcad', 45);
+            updateSignal('eurcad', 'Neutral');
+
+            updateProgress('crash500', 95);
+            updateSignal('crash500', 'Buy');
+
+            updateProgress('boom1000', 30);
+            updateSignal('boom1000', 'Sell');
+        }, 3000);
+    </script>
+
+</body>
+</html>
